@@ -49,3 +49,9 @@ Run `python3 -m http.server 8765 --bind 127.0.0.1` from this folder, then visit 
 Support and privacy pages are included. Review the policy against your actual practices before publication. Contact: jakeellis5000@icloud.com. Brand: EllisGaming.
 
 No analytics, trackers, external fonts or embedded social media are included. Video and screenshots are hosted as ordinary files. Use pictures and recordings you have permission to publish.
+
+## Paint brands and colour mixing
+
+The paint-drawer swatches and interactive ratio study are original HTML/CSS website illustrations, not app screenshots or manufacturer artwork. They need no image downloads and scale to phone/tablet screens. The ratio study uses an approximate weighted sRGB blend and still shows a static recipe without JavaScript. It does not claim to predict physical pigment mixing.
+
+The gallery now also includes an iPad-framed mixer screenshot placeholder. Add a real screenshot in its `site-config.js` entry when ready. Paint-brand names are references, not endorsements. Avoid claiming every archived or specialist product is included.

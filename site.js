@@ -30,3 +30,19 @@ if(area){
 }
 const socials=document.getElementById('social-links');
 if(socials)for(const[label,url]of[['Instagram',config.instagramUrl],['TikTok',config.tiktokUrl]])if(webUrl(url)){const a=document.createElement('a');a.href=webUrl(url);a.textContent=label;socials.append(a);}
+
+/* Small, clearly labelled website illustration using the app's weighted sRGB approach. */
+const ratio=document.getElementById('mix-ratio');
+if(ratio){
+ document.getElementById('mix-demo-controls').hidden=false;
+ const updateMix=()=>{
+  const parts=Number(ratio.value), blue=[15,61,124];
+  const hex='#'+blue.map(channel=>Math.round((channel*parts+255)/(parts+1)).toString(16).padStart(2,'0')).join('').toUpperCase();
+  document.getElementById('blue-parts').textContent=parts+' '+(parts===1?'part':'parts');
+  document.getElementById('mix-ratio-value').value=parts+' : 1';
+  document.getElementById('mixed-swatch').style.setProperty('--mixed',hex);
+  document.getElementById('mixed-hex').textContent=hex;
+  ratio.setAttribute('aria-valuetext',parts+' parts Macragge Blue to 1 part Vallejo White');
+ };
+ ratio.addEventListener('input',updateMix);updateMix();
+}
