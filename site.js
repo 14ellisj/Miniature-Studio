@@ -34,15 +34,40 @@ if(socials)for(const[label,url]of[['Instagram',config.instagramUrl],['TikTok',co
 /* Small, clearly labelled website illustration using the app's weighted sRGB approach. */
 const ratio=document.getElementById('mix-ratio');
 if(ratio){
+ const paints=[
+  {name:'Macragge Blue',brand:'Citadel',range:'Base',hex:'#0F3D7C'},
+  {name:'Mephiston Red',brand:'Citadel',range:'Base',hex:'#960C09'},
+  {name:'Daemonic Yellow',brand:'The Army Painter',range:'Warpaints Fanatic',hex:'#FECD29'},
+  {name:'Mid DAK Green',brand:'The Army Painter',range:'Historical',hex:'#454C1C'},
+  {name:'White',brand:'Vallejo',range:'Model Color',hex:'#FFFFFF'},
+  {name:'Black',brand:'Vallejo',range:'Model Color',hex:'#231C1D'}
+ ];
+ const first=document.getElementById('mix-paint-a'),second=document.getElementById('mix-paint-b');
+ for(const select of [first,second]){
+  for(const brand of [...new Set(paints.map(paint=>paint.brand))]){
+   const group=document.createElement('optgroup');group.label=brand;
+   paints.forEach((paint,index)=>{if(paint.brand===brand){const option=document.createElement('option');option.value=String(index);option.textContent=paint.name;group.append(option);}});
+   select.append(group);
+  }
+ }
+ first.value='0';second.value='4';
  document.getElementById('mix-demo-controls').hidden=false;
  const updateMix=()=>{
-  const parts=Number(ratio.value), blue=[15,61,124];
-  const hex='#'+blue.map(channel=>Math.round((channel*parts+255)/(parts+1)).toString(16).padStart(2,'0')).join('').toUpperCase();
+  const parts=Number(ratio.value),a=paints[Number(first.value)],b=paints[Number(second.value)];
+  const rgb=paint=>paint.hex.slice(1).match(/../g).map(channel=>parseInt(channel,16));
+  const secondRGB=rgb(b);
+  const hex='#'+rgb(a).map((channel,index)=>Math.round((channel*parts+secondRGB[index])/(parts+1)).toString(16).padStart(2,'0')).join('').toUpperCase();
+  for(const [id,paint]of [['a',a],['b',b]]){
+   document.getElementById('paint-'+id+'-swatch').style.setProperty('--swatch',paint.hex);
+   document.getElementById('paint-'+id+'-name').textContent=paint.name;
+   document.getElementById('paint-'+id+'-range').textContent=paint.brand+' · '+paint.range;
+  }
   document.getElementById('blue-parts').textContent=parts+' '+(parts===1?'part':'parts');
   document.getElementById('mix-ratio-value').value=parts+' : 1';
   document.getElementById('mixed-swatch').style.setProperty('--mixed',hex);
   document.getElementById('mixed-hex').textContent=hex;
-  ratio.setAttribute('aria-valuetext',parts+' parts Macragge Blue to 1 part Vallejo White');
+  ratio.setAttribute('aria-valuetext',parts+' parts '+a.brand+' '+a.name+' to 1 part '+b.brand+' '+b.name);
  };
+ first.addEventListener('change',updateMix);second.addEventListener('change',updateMix);
  ratio.addEventListener('input',updateMix);updateMix();
 }

@@ -45,6 +45,10 @@
 .paint-daub{display:block;width:70px;height:66px;margin:0 auto 15px;background:var(--swatch);border-radius:46% 55% 39% 49%;box-shadow:inset 5px 5px 0 #ffffff14,inset -4px -4px 0 #00000010;border:1px solid #15272912;transform:rotate(-12deg)}
 .mix-plus{font:2rem Georgia,serif;color:#62715b}
 #mix-demo-controls label{display:flex;justify-content:space-between;gap:12px;font-size:.83rem;font-weight:650}
+.mix-paint-choices{display:grid;gap:14px;margin-bottom:24px}
+#mix-demo-controls .mix-paint-choices label{display:grid;gap:6px;min-width:0}
+.mix-paint-choices select{width:100%;min-width:0;min-height:44px;padding:10px 12px;border:1px solid #9aa895;border-radius:5px;background:#fbfaf4;color:var(--ink);font:inherit;font-size:16px}
+.mix-paint-choices select:focus-visible{outline:3px solid #17806a;outline-offset:3px}
 #mix-ratio{width:100%;height:44px;accent-color:#31564e;cursor:pointer;margin:0}
 #mix-ratio:focus-visible{outline:3px solid #17806a;outline-offset:3px}
 .ratio-endpoints{display:flex;justify-content:space-between;font-size:.68rem;color:var(--muted)}
