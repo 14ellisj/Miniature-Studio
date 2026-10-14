@@ -1,24 +1,26 @@
 # Miniature Studio website
 
-All website files are in this folder. The design is a miniature painter’s workbench: ruled paper, paint samples, a numbered painting journal and iPhone/iPad frames.
+All website files are in this folder. The October 2026 redesign uses an editorial field-journal layout: a charcoal typographic cover, annotated workspace, sequential painting notes, paint register and dark screenshot contact sheet. Mint, sage and warm paper retain the existing palette. Layout and copy are bespoke to Miniature Studio’s painting-on-the-train origin.
 
 ## Add your pictures
 
 Open `site-config.js`. Put raw screenshots in `assets/` and fill in the blank `src` values:
 
-- `tablet.src: 'assets/ipad-finished.png'` — main iPad image.
+- `tablet.src: 'assets/ipad-painting.mp4'` — first iPad frame, now a video. Add an MP4 screen recording; it plays inside the iPad border with controls and no autoplay. Optional `tablet.poster` accepts a still image and `tablet.captions` an English WebVTT file. Portrait and landscape recordings retain their natural proportions.
 - `phone.src: 'assets/iphone-painting.png'` — main iPhone image.
-- Each `gallery` entry — six suggested stories, expandable to any number.
+- Each `gallery` entry — six suggested stories. The gallery follows the opening workspace, with two large pictures per row on desktop and one per row on phones.
 
 Use `device: 'iphone'` or `device: 'ipad'`. Borders are automatic. Screenshots retain their full aspect ratio; do not add a second frame yourself. Update each `alt` description and caption to match the actual image. Empty entries show labelled placeholders, with no broken images or fake buttons. Older screenshots remain in assets for reference but are not displayed.
 
-Suggested gallery: finished miniature, close-up, paint library, drybrushing, STL preparation, saved projects.
+Suggested gallery: finished miniature, close-up, paint library, colour mixing, drybrushing and STL preparation.
 
 ## Add your video
 
 Add an MP4 to assets, then set `video.src`, for example `assets/painting-demo.mp4`. Optional: `video.poster` (preview image), `video.captions` (English WebVTT file) and `video.transcript` (plain text). The player has controls and does not autoplay. Until you add a file, a clearly labelled film placeholder is shown. A useful 15–25 second sequence is basecoat → shade → drybrush → finished miniature.
 
 ## Launch settings: one place
+
+The launch reminder appears immediately on each page visit and stays until the visitor closes it, chooses Maybe later or presses Escape. Downloading the calendar does not dismiss it. Set `launchReminder.enabled: false` to disable it. It uses no cookies or browser storage and is not offered on or after the launch date, or when `appleReleased` is true. Visitors must open the downloaded ICS file to add the event to their calendar.
 
 Edit `site-config.js`, then run `node build.mjs` in this folder. This generates `index.html` and the launch calendar. It updates the banner, main button, price notes, release section and search/social descriptions together.
 
@@ -52,6 +54,6 @@ No analytics, trackers, external fonts or embedded social media are included. Vi
 
 ## Paint brands and colour mixing
 
-The paint-drawer swatches and interactive ratio study are original HTML/CSS website illustrations, not app screenshots or manufacturer artwork. They need no image downloads and scale to phone/tablet screens. The ratio study uses an approximate weighted sRGB blend and still shows a static recipe without JavaScript. It does not claim to predict physical pigment mixing.
+The paint register and interactive ratio study use original HTML/CSS, not manufacturer artwork. Both paint dropdowns include six sample colours across the three brands. They need no image downloads and scale to phone/tablet screens. The ratio study uses an approximate weighted sRGB blend and still shows a static recipe without JavaScript. It does not claim to predict physical pigment mixing.
 
 The gallery now also includes an iPad-framed mixer screenshot placeholder. Add a real screenshot in its `site-config.js` entry when ready. Paint-brand names are references, not endorsements. Avoid claiming every archived or specialist product is included.

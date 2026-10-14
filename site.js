@@ -1,11 +1,34 @@
 'use strict';
 const config=window.STUDIO||{};
+
+/* Show immediately before launch and remain until explicitly dismissed. */
+const launchReminder=document.getElementById('launch-reminder');
+if(launchReminder&&config.launchReminder?.enabled!==false&&!config.appleReleased){
+ const launchDay=new Date(config.appleLaunchDate+'T00:00:00');
+ const beforeLaunch=()=>Number.isFinite(+launchDay)&&Date.now()<+launchDay;
+ if(beforeLaunch()){
+  document.getElementById('reminder-date').textContent=new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'long',year:'numeric'}).format(launchDay);
+  launchReminder.hidden=false;
+  const dismiss=()=>{launchReminder.hidden=true;};
+  launchReminder.querySelector('.reminder-close').addEventListener('click',dismiss);
+  launchReminder.querySelector('.reminder-later').addEventListener('click',dismiss);
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!launchReminder.hidden)dismiss();});
+ }
+}
 const webUrl=value=>{try{const u=new URL(value);return u.protocol==='https:'?u.href:null;}catch{return null;}};
 function deviceFrame(item){
  const frame=document.createElement('div');frame.className='device-frame '+(item.device==='iphone'?'device-iphone':'device-ipad');
  const screen=document.createElement('div');screen.className='device-screen';
- if(item.src){const img=document.createElement('img');img.src=item.src;img.alt=item.alt||'';img.loading='lazy';screen.append(img);}
- else{const slot=document.createElement('div');slot.className='image-placeholder';const title=document.createElement('strong');title.textContent=item.label||item.title;const note=document.createElement('span');note.textContent=(item.device==='iphone'?'iPhone':'iPad')+' screenshot goes here';slot.append(title,note);screen.append(slot);}
+ if(item.type==='video'&&item.src){
+  const video=document.createElement('video');video.src=item.src;video.controls=true;video.playsInline=true;video.preload='metadata';video.setAttribute('aria-label',item.alt||item.label||'Painting demonstration');
+  if(item.poster)video.poster=item.poster;
+  if(item.captions){const track=document.createElement('track');track.kind='captions';track.srclang='en';track.label='English';track.src=item.captions;video.append(track);}
+  const fallback=document.createElement('a');fallback.href=item.src;fallback.textContent='Open the painting video';video.append(fallback);
+  video.addEventListener('error',()=>{if(!screen.querySelector('.video-error')){const message=document.createElement('p');message.className='video-error';message.textContent='This video could not load. ';const link=document.createElement('a');link.href=item.src;link.textContent='Try opening the recording';message.append(link);screen.append(message);}});
+  screen.append(video);
+ }
+ else if(item.src){const img=document.createElement('img');img.src=item.src;img.alt=item.alt||'';img.loading='lazy';screen.append(img);}
+ else{const slot=document.createElement('div');slot.className='image-placeholder'+(item.type==='video'?' recording-placeholder':'');const title=document.createElement('strong');title.textContent=item.label||item.title;const note=document.createElement('span');note.textContent=(item.device==='iphone'?'iPhone':'iPad')+(item.type==='video'?' screen recording goes here':' screenshot goes here');slot.append(title,note);screen.append(slot);}
  frame.append(screen);return frame;
 }
 for(const[id,item]of[['hero-tablet',config.tablet],['hero-phone',config.phone]])if(item)document.getElementById(id)?.append(deviceFrame(item));
