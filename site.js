@@ -16,8 +16,10 @@ if(launchReminder&&config.launchReminder?.enabled!==false&&!config.appleReleased
  }
 }
 const webUrl=value=>{try{const u=new URL(value);return u.protocol==='https:'?u.href:null;}catch{return null;}};
+const deviceNames={iphone:'iPhone',ipad:'iPad',duo:'Duo'};
 function deviceFrame(item){
- const frame=document.createElement('div');frame.className='device-frame '+(item.device==='iphone'?'device-iphone':'device-ipad');
+ const device=deviceNames[item.device]?item.device:'ipad';
+ const frame=document.createElement('div');frame.className='device-frame device-'+device;
  const screen=document.createElement('div');screen.className='device-screen';
  if(item.type==='video'&&item.src){
   const video=document.createElement('video');video.src=item.src;video.controls=true;video.playsInline=true;video.preload='metadata';video.setAttribute('aria-label',item.alt||item.label||'Painting demonstration');
@@ -27,24 +29,34 @@ function deviceFrame(item){
   video.addEventListener('error',()=>{if(!screen.querySelector('.video-error')){const message=document.createElement('p');message.className='video-error';message.textContent='This video could not load. ';const link=document.createElement('a');link.href=item.src;link.textContent='Try opening the recording';message.append(link);screen.append(message);}});
   screen.append(video);
  }
- else if(item.src){const img=document.createElement('img');img.src=item.src;img.alt=item.alt||'';img.loading='lazy';screen.append(img);}
+ else if(item.src||item.poster){const img=document.createElement('img');img.src=item.src||item.poster;img.alt=(item.alt||'App screenshot')+' — '+deviceNames[device];img.loading=item.eager?'eager':'lazy';img.decoding='async';if(item.eager)img.fetchPriority='high';const sizes={iphone:[1206,2622],ipad:[1640,2360],duo:[2007,2853]};[img.width,img.height]=sizes[device];screen.append(img);}
  else{const slot=document.createElement('div');slot.className='image-placeholder'+(item.type==='video'?' recording-placeholder':'');const title=document.createElement('strong');title.textContent=item.label||item.title;const note=document.createElement('span');note.textContent=(item.device==='iphone'?'iPhone':'iPad')+(item.type==='video'?' screen recording goes here':' screenshot goes here');slot.append(title,note);screen.append(slot);}
  frame.append(screen);return frame;
 }
-for(const[id,item]of[['hero-tablet',config.tablet],['hero-phone',config.phone]])if(item)document.getElementById(id)?.append(deviceFrame(item));
+for(const[id,item]of[['hero-tablet',config.tablet],['hero-phone',config.phone]])if(item)document.getElementById(id)?.append(deviceFrame({...item,eager:true}));
 const gallery=document.getElementById('gallery-grid'),dialog=document.getElementById('lightbox');
 if(gallery&&dialog){
  for(const item of config.gallery||[]){
   const figure=document.createElement('figure');figure.className='gallery-item';
   const stage=document.createElement('p');stage.className='gallery-stage';stage.textContent=item.stage||'FROM THE STUDIO';figure.append(stage);
-  const frame=deviceFrame(item);
-  if(item.src){const button=document.createElement('button');button.type='button';button.setAttribute('aria-label','Enlarge: '+item.title);button.append(frame);figure.append(button);button.addEventListener('click',()=>{const img=document.getElementById('lightbox-image');img.src=item.src;img.alt=item.alt||'';document.getElementById('lightbox-caption').textContent=item.title;dialog.showModal();});}
-  else{const slot=document.createElement('div');slot.className='gallery-slot';slot.append(frame);figure.append(slot);}
+  const variants=item.variants?.length?item.variants:[item];
+  let selected={...item,...variants[0]};
+  const button=document.createElement('button');button.type='button';button.className='screenshot-open';
+  const switches=document.createElement('div');switches.className='device-switch';switches.setAttribute('role','group');switches.setAttribute('aria-label','Choose device for '+item.title);
+  const render=()=>{
+   button.replaceChildren(deviceFrame(selected));
+   button.setAttribute('aria-label','Enlarge: '+item.title+' on '+deviceNames[selected.device]);
+   for(const control of switches.children)control.setAttribute('aria-pressed',String(control.dataset.device===selected.device));
+  };
+  for(const variant of variants){const control=document.createElement('button');control.type='button';control.dataset.device=variant.device;control.textContent=deviceNames[variant.device];control.addEventListener('click',()=>{selected={...item,...variant};render();});switches.append(control);}
+  if(variants.length>1)figure.append(switches);
+  render();figure.append(button);
+  button.addEventListener('click',()=>{if(!selected.src)return;document.getElementById('lightbox-media').replaceChildren(deviceFrame(selected));document.getElementById('lightbox-caption').textContent=item.title+' · '+deviceNames[selected.device];dialog.showModal();});
   const caption=document.createElement('figcaption'),title=document.createElement('strong'),note=document.createElement('span');title.textContent=item.title;note.textContent=item.note||'';caption.append(title,note);figure.append(caption);gallery.append(figure);
  }
  dialog.querySelector('.close').addEventListener('click',()=>dialog.close());
  dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});
- if((config.gallery||[]).every(item=>item.src))document.querySelector('#gallery .small').textContent='Actual app screenshots. Select a picture to explore the details.';
+ if((config.gallery||[]).every(item=>item.src||item.variants?.length))document.querySelector('#gallery .small').textContent='Actual app screenshots. Switch devices to compare, or tap a picture for a closer look.';
 }
 const area=document.getElementById('painting-video');
 if(area){

@@ -7,15 +7,15 @@ window.STUDIO = {
  launchReminder:{enabled:true},
  // Raw screenshots receive device borders automatically.
  // Add your iPad screen recording here; poster and captions are optional.
- tablet:{type:'video',src:'',poster:'',captions:'',alt:'Painting a miniature on iPad',label:'A painting session on iPad',device:'ipad'},
- phone:{src:'',alt:'Painting workspace on iPhone',label:'Your iPhone workspace',device:'iphone'},
+ tablet:{type:'video',src:'',poster:'assets/screenshots/ipad-canvas.webp',captions:'',alt:'Blue miniature in the iPad painting workspace',label:'A painting session on iPad',device:'ipad'},
+ phone:{src:'assets/screenshots/iphone-controls.webp',alt:'Purple miniature and floating paint controls on iPhone',label:'Your iPhone workspace',device:'iphone'},
  video:{src:'',poster:'',captions:'',transcript:'',title:'From first coat to finishing touch'},
  gallery:[
-  {src:'',title:'The finished piece',alt:'Finished miniature',device:'ipad',note:'The one you’re proud of.',stage:'01 / THE RESULT'},
-  {src:'',title:'Get lost in the details',alt:'Close-up painted highlights',device:'iphone',note:'Yes, even that tiny edge.',stage:'02 / UP CLOSE'},
-  {src:'',title:'A palette of possibilities',alt:'Paint library',device:'iphone',note:'Citadel, The Army Painter and Vallejo, side by side.',stage:'03 / THE COLOURS'},
-  {src:'',title:'A colour of your own',alt:'Colour mixer with paints from different brands and their ratios',device:'ipad',note:'Up to four paints. One new shade.',stage:'04 / THE MIX'},
-  {src:'',title:'Let the texture do the talking',alt:'Drybrushed raised surfaces',device:'ipad',note:'A lighter touch. A different finish.',stage:'05 / THE TECHNIQUE'},
-  {src:'',title:'Start with your own sculpt',alt:'STL preparation',device:'ipad',note:'Your next project starts here.',stage:'06 / THE START'}
+  {title:'Your canvas. Your colours.',alt:'Painted miniature in the full painting workspace',note:'A different scheme. The same miniature.',stage:'01 / THE CANVAS',variants:[{device:'ipad',src:'assets/screenshots/ipad-canvas.webp'},{device:'iphone',src:'assets/screenshots/iphone-canvas.webp'},{device:'duo',src:'assets/screenshots/duo-canvas.webp'}]},
+  {title:'Get lost in the details',alt:'Zoomed-in painted armour and sculpted details',note:'Move closer. Make your next mark.',stage:'02 / UP CLOSE',variants:[{device:'iphone',src:'assets/screenshots/iphone-detail.webp'},{device:'ipad',src:'assets/screenshots/ipad-detail.webp'},{device:'duo',src:'assets/screenshots/duo-detail.webp'}]},
+  {title:'A palette of possibilities',alt:'Paint library with the Citadel, The Army Painter and Vallejo brand selector open',note:'Three paint brands. Plenty of possibilities.',stage:'03 / THE COLOURS',variants:[{device:'iphone',src:'assets/screenshots/iphone-library.webp'},{device:'ipad',src:'assets/screenshots/ipad-library.webp'}]},
+  {title:'A colour of your own',alt:'Colour mixer showing paint ingredients, ratios and the resulting swatch',note:'Up to four paints. One new shade.',stage:'04 / THE MIX',variants:[{device:'duo',src:'assets/screenshots/duo-mixing.webp'},{device:'ipad',src:'assets/screenshots/ipad-mixing.webp'},{device:'iphone',src:'assets/screenshots/iphone-mixing.webp'}]},
+  {title:'Keep your tools close',alt:'Floating paint controls over the miniature painting canvas',note:'Choose your brush. Then get back to painting.',stage:'05 / THE TOOLS',variants:[{device:'duo',src:'assets/screenshots/duo-controls.webp'},{device:'iphone',src:'assets/screenshots/iphone-controls.webp'}]},
+  {title:'Start with your own sculpt',alt:'STL preparation screen with the Choose an STL button',note:'Your next project starts here.',stage:'06 / THE START',variants:[{device:'ipad',src:'assets/screenshots/ipad-prepare.webp'},{device:'iphone',src:'assets/screenshots/iphone-prepare.webp'},{device:'duo',src:'assets/screenshots/duo-prepare.webp'}]}
  ]
 };
