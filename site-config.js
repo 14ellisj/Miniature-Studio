@@ -1,6 +1,6 @@
 // After editing, run node build.mjs. GitHub Actions also builds automatically.
 window.STUDIO = {
- siteUrl:'https://14ellisj.github.io/MiniatureStudio/',
+ siteUrl:'https://miniature-studio.co.uk/',
  appleUrl:'', appleReleased:false, appleLaunchDate:'2026-10-23', price:'£2.99',
  androidUrl:'', androidReleased:false, androidTiming:'Later in 2026',
  instagramUrl:'', tiktokUrl:'',

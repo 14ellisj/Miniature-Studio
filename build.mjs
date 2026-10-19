@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import {buildInformation} from './build-information.mjs';
 import vm from 'node:vm';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -20,6 +21,7 @@ html=html.replace(/\{\{([A-Z_]+)\}\}/g,(_,key)=>{if(!(key in values))throw Error
 const description='Freehand 3D miniature painting for iPhone and iPad. Explore Citadel, The Army Painter and Vallejo paint references, and mix your own colours. '+(c.appleReleased?'Available on the App Store.':'Launching on the App Store '+full+'.')+' '+(c.androidReleased?'Also on Google Play.':'Google Play planned '+c.androidTiming.toLowerCase()+'.');
 html=html.replace(/(<meta (?:name="description"|property="og:description") content=")[^"]*/g,(_,prefix)=>prefix+esc(description));
 fs.writeFileSync(path.join(root,'index.html'),html);
+buildInformation(root, values.SITE_URL);
 const stamp=c.appleLaunchDate.replaceAll('-',''),end=new Date(+date+86400000).toISOString().slice(0,10).replaceAll('-','');
 fs.writeFileSync(path.join(root,'launch.ics'),['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//EllisGaming//Miniature Studio//EN','BEGIN:VEVENT','UID:miniature-studio-launch@ellisgaming','DTSTAMP:20261013T120000Z','DTSTART;VALUE=DATE:'+stamp,'DTEND;VALUE=DATE:'+end,'SUMMARY:Miniature Studio App Store launch','END:VEVENT','END:VCALENDAR',''].join('\r\n'));
 console.log('Built Miniature Studio: '+(c.appleReleased?'Apple released':full));

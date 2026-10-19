@@ -34,7 +34,7 @@ Recommended: in repository Settings → Pages, choose **GitHub Actions** as the 
 
 Alternatively, keep **Deploy from a branch** (main/root). Run `node build.mjs` locally and commit the generated index.html and launch.ics with your changes. Do not switch methods unless you want to. No remote settings have been changed.
 
-The configured public URL is `https://14ellisj.github.io/MiniatureStudio/`, inferred from this repository’s remote. If your published address differs, update `siteUrl` and rebuild. It sets the canonical and social image URL; hosting was not independently verified.
+The configured public URL is `https://miniature-studio.co.uk/`. If your published address changes, update `siteUrl` and rebuild. It sets the canonical and social image URLs.
 
 ## Social preview
 
@@ -48,7 +48,9 @@ Run `python3 -m http.server 8765 --bind 127.0.0.1` from this folder, then visit 
 
 ## Support and privacy
 
-Support and privacy pages are included. Review the policy against your actual practices before publication. Contact: jakeellis5000@icloud.com. Brand: EllisGaming.
+Help lives at `/help/` and the privacy policy at `/policy/`. GitHub Pages redirects `/help` and `/policy` to these directory pages. Both share the main site's typography and colours, with a linked contents list and mobile layout. Old `support.html` and `privacy.html` links redirect to the new pages.
+
+Edit the page text in `content/help.html` and `content/policy.html`, the shared layout in `information-template.html`, and run `node build.mjs`. The build generates both directory pages and the legacy redirects. GitHub Actions includes both directories in the published site. For manual upload or branch deployment, include the generated `help/` and `policy/` directories, updated homepage, CSS, config and redirects. Review the policy against your actual practices before publication. Contact: jakeellis5000@icloud.com. Brand: EllisGaming.
 
 No analytics, trackers, external fonts or embedded social media are included. Video and screenshots are hosted as ordinary files. Use pictures and recordings you have permission to publish.
 
