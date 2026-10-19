@@ -26,7 +26,7 @@ jobs:
       - run: |
           mkdir public
           cp index.html support.html privacy.html style.css site.js site-config.js launch.ics public/
-          cp -r assets help policy public/
+          cp -r assets help policy usage public/
           cp CNAME public/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

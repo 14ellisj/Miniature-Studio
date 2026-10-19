@@ -5,6 +5,13 @@ import path from 'node:path';
 export function buildInformation(root, siteUrl) {
   const escape = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const pages = [
+    {slug:'usage', TITLE:'Usage & licences',
+      DESCRIPTION:'Model permissions, paint references, export guidance and consumer rights for Miniature Studio.',
+      EYEBROW:'FIELD NOTES / USAGE & LICENCES', HEADING:'Make it yours.<br><em>Know the details.</em>',
+      INTRO:'A few practical notes about models, paint references, exports and your rights.',
+      SUBJECT:'Miniature Studio usage question', CONTACT_LABEL:'Ask a question',
+      SIDE_NOTE:'Jake Ellis trading as EllisGaming. This guide does not replace the licence accompanying your App Store purchase.',
+      CONTACT_HEADING:'Something unclear?', CONTACT_COPY:'Ask about model permissions, exports or the licence accompanying your purchase.'},
     {slug:'help', old:'support.html', TITLE:'Help & painting guide',
       DESCRIPTION:'Start painting, learn the controls, mix colours, export models and get help with Miniature Studio.',
       EYEBROW:'FIELD NOTES / HELP & SUPPORT', HEADING:'Back to<br><em>painting.</em>',
@@ -33,7 +40,7 @@ export function buildInformation(root, siteUrl) {
     // on a previously cached style.css from before these layouts existed.
     const raw = {BODY:body, HEADING:page.HEADING, PAGE_STYLES:fs.readFileSync(path.join(root,'style.css'),'utf8'),
       CONTENTS:headings.map(({id,title},i)=>`<a href="#${id}"><span>${String(i+1).padStart(2,'0')}</span>${escape(title)}</a>`).join(''),
-      HELP_CURRENT:page.slug==='help'?'aria-current="page"':'', POLICY_CURRENT:page.slug==='policy'?'aria-current="page"':''};
+      HELP_CURRENT:page.slug==='help'?'aria-current="page"':'', POLICY_CURRENT:page.slug==='policy'?'aria-current="page"':'', USAGE_CURRENT:page.slug==='usage'?'aria-current="page"':''};
     const html = template.replace(/\{\{([A-Z_]+)\}\}/g,(_,key)=> {
       if(key in raw)return raw[key];
       if(!(key in values))throw Error('Unknown information template key '+key);
@@ -42,6 +49,7 @@ export function buildInformation(root, siteUrl) {
     fs.mkdirSync(path.join(root,page.slug),{recursive:true});
     fs.writeFileSync(path.join(root,page.slug,'index.html'),html);
     // Keep old bookmarks and App Store links working, including section anchors.
+    if (!page.old) continue;
     fs.writeFileSync(path.join(root,page.old),`<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escape(page.TITLE)} — Miniature Studio</title><link rel="canonical" href="${escape(canonical)}"><meta http-equiv="refresh" content="0;url=${page.slug}/"><script>location.replace(${JSON.stringify(page.slug+'/')}+location.hash);</script></head><body><p>This page has moved. <a href="${page.slug}/">Continue to ${escape(page.TITLE)}</a>.</p></body></html>\n`);
   }
 }

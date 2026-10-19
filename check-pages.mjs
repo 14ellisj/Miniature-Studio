@@ -3,9 +3,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=path.dirname(fileURLToPath(import.meta.url));
-for(const name of ['index.html','help/index.html','policy/index.html']) {
+for(const name of ['index.html','help/index.html','policy/index.html','usage/index.html']) {
   const html=fs.readFileSync(path.join(root,name),'utf8');
   assert(!html.includes('{{'),`Unfilled template: ${name}`);
+  assert(!/jakeellis5000|icloud\.com/i.test(html),`Obsolete contact in ${name}`);
+  assert(html.includes('miniaturestudio4@gmail.com'),`Missing support contact in ${name}`);
+  assert(html.includes('Jake Ellis trading as EllisGaming'),`Missing trading identity in ${name}`);
   const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
   assert.equal(new Set(ids).size,ids.length,`Duplicate IDs: ${name}`);
   for(const [,value] of html.matchAll(/\b(?:href|src)="([^"]+)"/g)) {
@@ -30,5 +33,5 @@ for(const [file,route] of [['support.html','help/'],['privacy.html','policy/']])
   assert(html.includes(`url=${route}`));
   assert(html.includes('location.hash'));
 }
-assert(fs.readFileSync(path.join(root,'.github/workflows/pages.yml'),'utf8').includes('cp -r assets help policy public/'));
-console.log('Passed: homepage, help/policy links, anchors, assets, metadata, legacy redirects and deployment routes.');
+assert(fs.readFileSync(path.join(root,'.github/workflows/pages.yml'),'utf8').includes('cp -r assets help policy usage public/'));
+console.log('Passed: homepage, help/policy/usage links, contacts, identity, anchors, assets, metadata, legacy redirects and deployment routes.');

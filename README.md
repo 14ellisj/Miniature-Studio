@@ -48,6 +48,16 @@ Run `python3 -m http.server 8765 --bind 127.0.0.1` from this folder, then visit 
 
 ## Support and privacy
 
+### Legal review still required before publishing these changes
+
+Owner-confirmed identity: **Jake Ellis trading as EllisGaming**, sole trader. Intended distribution is worldwide wherever Apple allows, not verified worldwide compliance. The updated policy is not yet a complete legal sign-off: a publishable business address, support-email retention policy, documented lawful bases and relevant provider/transfer arrangements remain to be confirmed. Do not fill these with invented details. Obtain legal review for the actual business practices and intended territories, including applicable trader disclosures and privacy requirements.
+
+The owner confirms model/promotional permissions exist, but the documents have not been reviewed. Check underlying rights and commercial redistribution, in-app export, printing and advertising permissions. Paint catalogue rights also need review; a non-affiliation statement does not establish permission. No licences, store settings or territory approvals have been certified or submitted by this work.
+
+The new `/usage/` page explains model permissions, digital paint limitations, exports, backups and consumer rights. It links to Apple's standard EULA but is **not** a custom EULA or a blanket liability waiver. All three information pages use the existing site's shared design. The website now identifies the confirmed sole trader and adds privacy-rights/complaint guidance.
+
+Edit `content/usage.html` for that page. Run `node build.mjs` and `node check-pages.mjs`. Include the generated `usage/` directory along with `help/` and `policy/` when uploading manually. GitHub Actions now includes it automatically. Changes are local until you deploy them. Verify `/help/`, `/policy/` and `/usage/` over HTTPS after deployment.
+
 Help lives at `/help/` and the privacy policy at `/policy/`. GitHub Pages redirects `/help` and `/policy` to these directory pages. Both share the main site's typography and colours, with a linked contents list and mobile layout. Old `support.html` and `privacy.html` links redirect to the new pages.
 
 The build embeds the current shared CSS in each help/privacy page. This prevents an older cached stylesheet from removing the new layout. After changing CSS, rerun the build and upload both generated directory pages as well. No separate stylesheet download is required for these two pages.
