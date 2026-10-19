@@ -50,7 +50,9 @@ Run `python3 -m http.server 8765 --bind 127.0.0.1` from this folder, then visit 
 
 Help lives at `/help/` and the privacy policy at `/policy/`. GitHub Pages redirects `/help` and `/policy` to these directory pages. Both share the main site's typography and colours, with a linked contents list and mobile layout. Old `support.html` and `privacy.html` links redirect to the new pages.
 
-Edit the page text in `content/help.html` and `content/policy.html`, the shared layout in `information-template.html`, and run `node build.mjs`. The build generates both directory pages and the legacy redirects. GitHub Actions includes both directories in the published site. For manual upload or branch deployment, include the generated `help/` and `policy/` directories, updated homepage, CSS, config and redirects. Review the policy against your actual practices before publication. Contact: jakeellis5000@icloud.com. Brand: EllisGaming.
+The build embeds the current shared CSS in each help/privacy page. This prevents an older cached stylesheet from removing the new layout. After changing CSS, rerun the build and upload both generated directory pages as well. No separate stylesheet download is required for these two pages.
+
+Edit the page text in `content/help.html` and `content/policy.html`, the shared layout in `information-template.html`, and run `node build.mjs`. The build generates both directory pages and the legacy redirects. GitHub Actions includes both directories in the published site. For manual upload or branch deployment, include the generated `help/` and `policy/` directories, updated homepage, CSS, config and redirects. Review the policy against your actual practices before publication. Contact: miniaturestudio4@gmail.com. Brand: EllisGaming.
 
 No analytics, trackers, external fonts or embedded social media are included. Video and screenshots are hosted as ordinary files. Use pictures and recordings you have permission to publish.
 

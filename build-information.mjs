@@ -29,7 +29,9 @@ export function buildInformation(root, siteUrl) {
     });
     const canonical = new URL(page.slug+'/',siteUrl).href;
     const values = {...page, SITE_URL:siteUrl, CANONICAL:canonical};
-    const raw = {BODY:body, HEADING:page.HEADING,
+    // Bundle the exact shared CSS into each page. New HTML must never depend
+    // on a previously cached style.css from before these layouts existed.
+    const raw = {BODY:body, HEADING:page.HEADING, PAGE_STYLES:fs.readFileSync(path.join(root,'style.css'),'utf8'),
       CONTENTS:headings.map(({id,title},i)=>`<a href="#${id}"><span>${String(i+1).padStart(2,'0')}</span>${escape(title)}</a>`).join(''),
       HELP_CURRENT:page.slug==='help'?'aria-current="page"':'', POLICY_CURRENT:page.slug==='policy'?'aria-current="page"':''};
     const html = template.replace(/\{\{([A-Z_]+)\}\}/g,(_,key)=> {

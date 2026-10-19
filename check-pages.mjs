@@ -19,7 +19,10 @@ for(const name of ['index.html','help/index.html','policy/index.html']) {
   if(name!=='index.html') {
     assert(html.includes('aria-current="page"'));
     assert(html.includes('https://miniature-studio.co.uk/'));
-    assert(html.includes('../style.css'));
+    assert(html.includes('<style data-studio-page-styles>'));
+    const bundled=html.match(/<style data-studio-page-styles>([\s\S]*?)<\/style>/)?.[1];
+    assert.equal(bundled,fs.readFileSync(path.join(root,'style.css'),'utf8'),'Page styling must match the current shared CSS');
+    assert(bundled.includes('.information-layout{display:grid;'));
   }
 }
 for(const [file,route] of [['support.html','help/'],['privacy.html','policy/']]) {
