@@ -1,7 +1,9 @@
 // After editing, run node build.mjs. GitHub Actions also builds automatically.
 window.STUDIO = {
  siteUrl:'https://miniature-studio.co.uk/',
- appleUrl:'', appleReleased:false, appleLaunchDate:'2026-10-23', price:'£2.99',
+ appleUrl:'https://apps.apple.com/app/id6821610088', appleReleased:false, appleLaunchDate:'2026-10-23', price:'£2.99',
+ // Midnight Friday 23 October in Europe/London (BST): 22 October, 23:00 UTC.
+ appleLaunchAt:'2026-10-23T00:00:00+01:00',
  androidUrl:'', androidReleased:false, androidTiming:'Later in 2026',
  instagramUrl:'', tiktokUrl:'',
  launchReminder:{enabled:true},

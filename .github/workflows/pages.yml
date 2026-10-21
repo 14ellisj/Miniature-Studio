@@ -23,9 +23,10 @@ jobs:
           node-version: '22'
       - run: node build.mjs
       - run: node check-pages.mjs
+      - run: node check-launch.mjs
       - run: |
           mkdir public
-          cp index.html support.html privacy.html style.css site.js site-config.js launch.ics public/
+          cp index.html support.html privacy.html style.css site.js site-config.js launch-state.js launch.ics public/
           cp -r assets help policy usage public/
           cp CNAME public/
       - uses: actions/configure-pages@v5

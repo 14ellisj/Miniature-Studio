@@ -4,22 +4,37 @@ import vm from 'node:vm';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=path.dirname(fileURLToPath(import.meta.url));
-const context={window:{}};vm.runInNewContext(fs.readFileSync(path.join(root,'site-config.js'),'utf8'),context);
+const context={window:{},URL};vm.runInNewContext(fs.readFileSync(path.join(root,'site-config.js'),'utf8'),context);
 const c=context.window.STUDIO;
+vm.runInNewContext(fs.readFileSync(path.join(root,'launch-state.js'),'utf8'),context);
+if(!Number.isFinite(Date.parse(c.appleLaunchAt))||!/[+-]\d\d:\d\d$|Z$/.test(c.appleLaunchAt))throw Error('appleLaunchAt must include an explicit timezone.');
+const launch=context.window.StudioLaunch.state(c);
+const manualRelease=c.appleReleased;
+c.appleReleased=launch.released;
 const esc=s=>String(s).replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
 const https=s=>{try{return new URL(s).protocol==='https:';}catch{return false;}};
 if(!https(c.siteUrl))throw Error('siteUrl must use HTTPS.');
-if(c.appleReleased&&!https(c.appleUrl))throw Error('Add appleUrl before enabling appleReleased.');
+if(manualRelease&&!launch.url)throw Error('Add a valid apps.apple.com app URL before enabling appleReleased.');
+if(c.appleUrl&&!launch.url)throw Error('appleUrl must be the direct HTTPS apps.apple.com URL ending in /id followed by the numeric Apple ID.');
 if(c.androidReleased&&!https(c.androidUrl))throw Error('Add androidUrl before enabling androidReleased.');
 for(const v of[c.appleUrl,c.androidUrl])if(v&&!https(v))throw Error('Store links must use HTTPS.');
 const date=new Date(c.appleLaunchDate+'T12:00:00Z');if(Number.isNaN(+date))throw Error('Invalid launch date');
 const full=new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(date);
 const short=new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'long',timeZone:'UTC'}).format(date);
 const values={SITE_URL:c.siteUrl.replace(/\/?$/,'/'),PRICE:c.price,PRICE_NOTE:c.appleReleased?'UK price; regional prices vary':'Planned UK launch price',APPLE_HREF:c.appleUrl||'#release',APPLE_ANNOUNCEMENT:c.appleReleased?'Available on the App Store':'App Store · '+full,APPLE_CTA:c.appleReleased?'Get Miniature Studio':'Coming '+short,RELEASE_HEADING:c.appleReleased?'Your studio is ready.':'Your studio is coming.',APPLE_STATUS:c.appleReleased?'Available now':full,APPLE_DOWNLOAD_HREF:c.appleUrl||'launch.ics',APPLE_DOWNLOAD_LABEL:c.appleUrl?(c.appleReleased?'View on the App Store':'View App Store listing'):'Save the launch date',ANDROID_STATUS:c.androidReleased?'Available now':c.androidTiming,ANDROID_COPY:c.androidReleased?'Bring your painting desk to Android phones and tablets.':'An Android edition is planned for '+c.androidTiming.toLowerCase()+'. We’ll share the release date here when it’s confirmed.',ANDROID_NOTE:c.androidReleased?'Explore Miniature Studio on Android.':'Android release date to be announced.',ANDROID_HREF:c.androidUrl||'mailto:miniaturestudio4@gmail.com?subject=Miniature%20Studio%20for%20Android',ANDROID_CTA:c.androidUrl?'View on Google Play':'Get in touch'};
-let html=fs.readFileSync(path.join(root,'page-template.html'),'utf8').replaceAll('{{APPLE_DOWNLOAD_ATTR}}',c.appleUrl?'':'download');
+if(!launch.released)Object.assign(values,{APPLE_HREF:'#release',APPLE_DOWNLOAD_HREF:'launch.ics',APPLE_DOWNLOAD_LABEL:'Save the launch date'});
+if(launch.released){
+ Object.assign(values,{APPLE_CTA:launch.url?'Download now':'App Store link coming shortly',APPLE_DOWNLOAD_LABEL:launch.url?'Download now':'App Store link coming shortly',APPLE_DOWNLOAD_HREF:launch.url||'#release',APPLE_HREF:launch.url||'#release'});
+ if(!launch.url)Object.assign(values,{APPLE_ANNOUNCEMENT:'App Store link coming shortly',APPLE_STATUS:'App Store link coming shortly',RELEASE_HEADING:'Your studio is nearly ready.'});
+}
+let html=fs.readFileSync(path.join(root,'page-template.html'),'utf8').replaceAll('{{APPLE_DOWNLOAD_ATTR}}',launch.released?'':'download');
 html=html.replace(/\{\{([A-Z_]+)\}\}/g,(_,key)=>{if(!(key in values))throw Error('Unknown template key '+key);return esc(values[key]);});
 const description='Freehand 3D miniature painting for iPhone and iPad. Explore Citadel, The Army Painter and Vallejo paint references, and mix your own colours. '+(c.appleReleased?'Available on the App Store.':'Launching on the App Store '+full+'.')+' '+(c.androidReleased?'Also on Google Play.':'Google Play planned '+c.androidTiming.toLowerCase()+'.');
-html=html.replace(/(<meta (?:name="description"|property="og:description") content=")[^"]*/g,(_,prefix)=>prefix+esc(description));
+html=html.replace(/(<meta (?:name="description"|property="og:description") content=")[^"]*/g,(_,prefix)=>prefix+esc(launch.released&&!launch.url?description.replace('Available on the App Store.','App Store link coming shortly.'):description));
+if(launch.released){
+ html=html.replace(/<aside id="launch-reminder"[\s\S]*?<\/aside>/,'');
+ if(!launch.url)html=html.replace(/(<a\b[^>]*data-launch-link[^>]*) href="[^"]*"/g,'$1 aria-disabled="true" tabindex="-1"');
+}
 fs.writeFileSync(path.join(root,'index.html'),html);
 buildInformation(root, values.SITE_URL);
 const stamp=c.appleLaunchDate.replaceAll('-',''),end=new Date(+date+86400000).toISOString().slice(0,10).replaceAll('-','');

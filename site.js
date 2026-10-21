@@ -3,11 +3,11 @@ const config=window.STUDIO||{};
 
 /* Show immediately before launch and remain until explicitly dismissed. */
 const launchReminder=document.getElementById('launch-reminder');
-if(launchReminder&&config.launchReminder?.enabled!==false&&!config.appleReleased){
- const launchDay=new Date(config.appleLaunchDate+'T00:00:00');
+if(launchReminder&&config.launchReminder?.enabled!==false&&!window.StudioLaunch.state(config).released){
+ const launchDay=new Date(config.appleLaunchAt);
  const beforeLaunch=()=>Number.isFinite(+launchDay)&&Date.now()<+launchDay;
  if(beforeLaunch()){
-  document.getElementById('reminder-date').textContent=new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'long',year:'numeric'}).format(launchDay);
+  document.getElementById('reminder-date').textContent=new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'Europe/London'}).format(launchDay);
   launchReminder.hidden=false;
   const dismiss=()=>{launchReminder.hidden=true;};
   launchReminder.querySelector('.reminder-close').addEventListener('click',dismiss);

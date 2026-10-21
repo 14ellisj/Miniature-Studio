@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+const context={window:{},URL};
+vm.runInNewContext(fs.readFileSync(new URL('./site-config.js',import.meta.url),'utf8'),context);
+vm.runInNewContext(fs.readFileSync(new URL('./launch-state.js',import.meta.url),'utf8'),context);
+const {state,apply}=context.window.StudioLaunch;
+const config=context.window.STUDIO;
+const midnight=Date.parse('2026-10-22T23:00:00Z');
+assert.equal(Date.parse(config.appleLaunchAt),midnight);
+assert.equal(state(config,midnight-1).released,false);
+assert.equal(state(config,midnight).released,true);
+assert.equal(state(config,midnight+86400000).released,true);
+assert.equal(state({...config,appleReleased:true},midnight-1).released,true);
+assert.equal(state({...config,appleUrl:'https://example.com/id123'},midnight).url,'');
+function node(key){return {dataset:{launchText:key},textContent:'Before launch',hidden:false,attrs:{href:'launch.ics',download:''},setAttribute(k,v){this.attrs[k]=v;},removeAttribute(k){delete this.attrs[k];}};}
+function fixture(){
+ const texts=['announcement','cta','heading','status','price'].map(node),links=[texts[0],texts[1]],reminder=node(),meta=node();
+ return {texts,links,reminder,meta,querySelectorAll(selector){return selector==='[data-launch-text]'?texts:selector==='[data-launch-link]'?links:selector.startsWith('#launch-reminder')?[reminder]:[meta];}};
+}
+const doc=fixture();
+apply(doc,config,midnight-1);
+assert.equal(doc.texts[1].textContent,'Before launch');
+assert.equal(doc.reminder.hidden,false);
+apply(doc,{...config,appleUrl:''},midnight);
+assert.equal(doc.reminder.hidden,true);
+assert.equal(doc.texts[1].textContent,'App Store link coming shortly');
+assert.equal(doc.links[1].attrs.href,undefined);
+assert.equal(doc.links[1].attrs.download,undefined);
+const linked={...config,appleUrl:'https://apps.apple.com/gb/app/miniature-studio/id1234567890'};
+apply(doc,linked,midnight);
+assert.equal(doc.texts[1].textContent,'Download now ↗');
+assert.equal(doc.links[1].attrs.href,linked.appleUrl);
+assert.equal(doc.links[1].attrs['aria-disabled'],undefined);
+assert.equal(doc.links[1].attrs.download,undefined);
+assert.equal(doc.texts[3].textContent,'Available now');
+assert(doc.meta.attrs.content.includes('Google Play planned later in 2026.'));
+apply(doc,linked,midnight+1000);
+assert.equal(doc.texts[1].textContent,'Download now ↗');
+const template=fs.readFileSync(new URL('./page-template.html',import.meta.url),'utf8');
+assert(template.indexOf('site-config.js')<template.indexOf('launch-state.js'));
+assert(template.indexOf('launch-state.js')<template.indexOf('site.js'));
+assert.equal((template.match(/data-launch-link/g)||[]).length,3);
+console.log('Passed launch boundary, fixed UK timezone, open-page transition, missing/invalid URL, download links, calendar removal, repeat updates and unchanged Android messaging.');
