@@ -50,6 +50,12 @@ Add your actual Instagram and TikTok profile URLs in site-config.js; blank links
 
 Run `python3 -m http.server 8765 --bind 127.0.0.1` from this folder, then visit `http://127.0.0.1:8765`. Stop with Ctrl+C.
 
+## iCloud website copy (version 1.7)
+
+The homepage FAQ, help, privacy and usage pages describe optional iCloud Drive project syncing. It is off by default, uses the user's Apple Account/storage, pauses while a model is open and resumes in the library. Deletions propagate when enabled; switching it off does not erase cloud copies. Different offline edits are not merged. The help page also documents five-minute/manual saving and save-checkpoint undo. These descriptions match the iOS implementation; they do not promise Android cloud compatibility.
+
+Rebuild with `node build.mjs`, check with `node check-pages.mjs` and `node check-launch.mjs`, then publish the generated pages through your existing GitHub Pages workflow. Local changes are not live until pushed/deployed.
+
 ## Support and privacy
 
 ### Legal review still required before publishing these changes
