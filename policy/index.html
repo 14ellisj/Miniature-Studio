@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://miniature-studio.co.uk/policy/">
   <meta property="og:type" content="website"><meta property="og:title" content="Privacy policy — Miniature Studio">
   <meta property="og:description" content="How Miniature Studio handles local projects, optional project syncing, sharing and support correspondence."><meta property="og:url" content="https://miniature-studio.co.uk/policy/">
-  <meta property="og:image" content="https://miniature-studio.co.uk/assets/social-preview.png">
+  <meta property="og:image" content="https://miniature-studio.co.uk/assets/social-preview-android.jpg">
   <link rel="icon" href="../assets/icon.png">
   <style data-studio-page-styles>:root{--ink:#162729;--muted:#546462;--paper:#f5f3ec;--mint:#81e1c9;--line:#bdc8bf;--dark:#101b1d}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6}a{color:inherit;text-underline-offset:5px}button,input,select{font:inherit}a,button,input,select,summary{-webkit-tap-highlight-color:transparent}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #21876c;outline-offset:5px}img{display:block;max-width:100%}h1,h2,h3,p,figure{margin:0}h1,h2,h3{line-height:1.06}p+p{margin-top:18px}.wrap{width:min(1340px,calc(100% - 96px));margin-inline:auto}.section{padding-block:100px}.small{font-size:.8rem;color:var(--muted)}.text-link{font-size:.85rem;font-weight:650;display:inline-block;margin-top:22px}.eyebrow,.issue-line,.cover-spec,.margin-note>span,.workspace-caption>span,.chapter>span,.desk-heading>span,.contact-heading>span,.register-label,.travel-note>span,.platform-label{font:11px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.09em}
@@ -101,6 +101,27 @@
 @media(max-width:1000px){.information-layout{gap:40px;grid-template-columns:minmax(180px,1fr) minmax(0,2fr)}}
 @media(max-width:720px){.information-cover{padding-block:28px 36px}.information-cover h1{font-size:clamp(48px,10vw,72px);margin-block:24px}.information-intro{display:block}.information-intro .text-link{margin-top:22px}.information-layout{display:block;padding-block:32px 54px}.information-index{margin-bottom:36px}.information-index nav{display:grid;grid-template-columns:1fr 1fr;gap:0 20px;justify-content:start}.information-index nav a{font-size:.8rem}.information-index>.small{max-width:440px}.information-contact{grid-template-columns:1fr;gap:24px}.information-page .header{align-items:center}.information-page .header nav{max-width:none;gap:4px 14px}}
 @media(max-width:380px){.information-index nav{grid-template-columns:1fr}.information-page .header{gap:12px}.information-page .header nav{gap:2px 10px;font-size:.7rem}}
+
+/* Store links for the Apple and Android releases. */
+.store-announcements{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:flex-end}
+.cover-bottom>.store-downloads{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:16px;font-size:1rem}
+.store-buttons{display:flex;flex-wrap:wrap;gap:12px}
+.store-buttons .button{margin:0;font-size:1rem}
+@media(max-width:720px){.store-announcements{justify-content:flex-start;gap:0 20px}}
+
+/* Both platforms share the same visual weight and accessible controls. */
+.store-buttons{display:grid;grid-template-columns:1fr;width:100%;max-width:300px}
+.store-buttons .button{width:100%;min-height:52px}
+.release-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.release-card{display:flex;flex-direction:column;align-items:flex-start}
+.release-card .button{margin-top:auto;min-height:52px;font-size:1rem}
+.release-card .platform-label{font-size:.875rem}
+.device-caption{margin-top:16px;text-align:center;font-size:.875rem;color:var(--muted)}
+.device-android{padding:9px;border-radius:24px;max-width:240px}
+.device-android .device-screen{border-radius:16px}
+.gallery-item .screenshot-open .device-android{width:218px;padding:8px;border-radius:24px}
+.gallery-item .device-switch button{min-height:44px;font-size:.875rem}
+@media(max-width:720px){.release-grid{grid-template-columns:1fr}.gallery-item .screenshot-open .device-android{width:184px}}
 </style>
 </head>
 <body class="information-page">
@@ -117,8 +138,8 @@
   </div>
 </div>
 <main id="main" class="information-layout wrap">
-  <aside class="information-index"><p class="eyebrow">ON THIS PAGE</p><nav aria-label="Page contents"><a href="#your-projects"><span>01</span>Your projects</a><a href="#optional-icloud-projects"><span>02</span>Optional iCloud Projects</a><a href="#optional-cloud-folder-on-android"><span>03</span>Optional cloud folder on Android</a><a href="#collection-and-tracking"><span>04</span>Collection and tracking</a><a href="#importing-and-sharing"><span>05</span>Importing and sharing</a><a href="#information-used-locally"><span>06</span>Information used locally</a><a href="#deleting-your-work"><span>07</span>Deleting your work</a><a href="#support-correspondence"><span>08</span>Support correspondence</a><a href="#this-website"><span>09</span>This website</a><a href="#your-privacy-rights"><span>10</span>Your privacy rights</a><a href="#changes-and-contact"><span>11</span>Changes and contact</a></nav><p class="small">Miniature Studio is developed by EllisGaming. This policy covers the Apple app, the upcoming Android edition and this website.</p></aside>
-  <article class="information-body" aria-label="Privacy policy"><p>Last updated: 6 November 2026. This policy describes Miniature Studio for iPhone and iPad, the upcoming Google Play edition for Android, and this website. Miniature Studio is operated by Jake Ellis trading as EllisGaming, a sole trader. For personal information you send to support, Jake Ellis trading as EllisGaming is the controller. Contact <a href="mailto:miniaturestudio4@gmail.com">miniaturestudio4@gmail.com</a>.</p>
+  <aside class="information-index"><p class="eyebrow">ON THIS PAGE</p><nav aria-label="Page contents"><a href="#your-projects"><span>01</span>Your projects</a><a href="#optional-icloud-projects"><span>02</span>Optional iCloud Projects</a><a href="#optional-cloud-folder-on-android"><span>03</span>Optional cloud folder on Android</a><a href="#collection-and-tracking"><span>04</span>Collection and tracking</a><a href="#importing-and-sharing"><span>05</span>Importing and sharing</a><a href="#information-used-locally"><span>06</span>Information used locally</a><a href="#deleting-your-work"><span>07</span>Deleting your work</a><a href="#support-correspondence"><span>08</span>Support correspondence</a><a href="#this-website"><span>09</span>This website</a><a href="#your-privacy-rights"><span>10</span>Your privacy rights</a><a href="#changes-and-contact"><span>11</span>Changes and contact</a></nav><p class="small">Miniature Studio is developed by EllisGaming. This policy covers the Apple app, the Android edition and this website.</p></aside>
+  <article class="information-body" aria-label="Privacy policy"><p>Last updated: 6 November 2026. This policy describes Miniature Studio for iPhone and iPad, the Google Play edition, available now for Android, and this website. Miniature Studio is operated by Jake Ellis trading as EllisGaming, a sole trader. For personal information you send to support, Jake Ellis trading as EllisGaming is the controller. Contact <a href="mailto:miniaturestudio4@gmail.com">miniaturestudio4@gmail.com</a>.</p>
 <h2 id="your-projects">Your projects</h2>
 <p>Miniature Studio stores imported model copies, paintings, layers, thumbnails, paint recipes, notes and settings locally on your device. You do not need a Miniature Studio account. On iPhone and iPad, optional iCloud Projects can sync saved projects through your own Apple Account; it is off by default. Projects are not uploaded to an EllisGaming-operated service.</p>
 <p>Apple device backups may include app data according to your settings. On Android, automatic app backup is disabled. Export backups of important projects before removing the app.</p>

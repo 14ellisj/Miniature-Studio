@@ -42,7 +42,7 @@ The configured public URL is `https://miniature-studio.co.uk/`. If your publishe
 
 ## Social preview
 
-`assets/social-preview.png` is a 1200 × 630 brand graphic. The page includes Open Graph and large-card metadata. It uses evergreen wording so launch changes do not require regenerating the graphic. `social-card.html` is the editable artwork source. Social networks may cache old previews after publishing.
+`assets/social-preview-android.jpg` is a 1200 × 630 brand graphic. The page includes Open Graph and large-card metadata. It uses evergreen wording so launch changes do not require regenerating the graphic. `social-card.html` is the editable artwork source. Social networks may cache old previews after publishing.
 
 Add your actual Instagram and TikTok profile URLs in site-config.js; blank links are hidden.
 
@@ -81,3 +81,9 @@ No analytics, trackers, external fonts or embedded social media are included. Vi
 The paint register and interactive ratio study use original HTML/CSS, not manufacturer artwork. Both paint dropdowns include six sample colours across the three brands. They need no image downloads and scale to phone/tablet screens. The ratio study uses an approximate weighted sRGB blend and still shows a static recipe without JavaScript. It does not claim to predict physical pigment mixing.
 
 The gallery now also includes an iPad-framed mixer screenshot placeholder. Add a real screenshot in its `site-config.js` entry when ready. Paint-brand names are references, not endorsements. Avoid claiming every archived or specialist product is included.
+
+## Android and Apple availability (27 November 2026)
+
+The homepage promotes Android phones and tablets alongside iPhone and iPad, with matching Google Play and App Store buttons. Android is released; its direct listing is configured in `site-config.js`. The gallery includes Android captures from the local Android UI previews, with three Android and three Apple views selected initially. The opening workspace pairs an iPad image with an Android phone image. Each gallery item allows visitors to switch platforms and enlarge the selected capture.
+
+`assets/social-preview-android.jpg` is rendered from `social-card.html` at 1200 × 630 and names all three device families. Android cloud folder sync and Apple iCloud Projects are described separately; editable project export is the route between the two.

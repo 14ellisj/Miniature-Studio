@@ -10,7 +10,7 @@
  function apply(document, config, now) {
   const current=state(config,now);
   if(!current.released)return current;
-  const text={announcement:current.url?'Available on the App Store ↗':'App Store link coming shortly',cta:current.url?'Download now ↗':'App Store link coming shortly',heading:current.url?'Your studio is ready.':'Your studio is nearly ready.',status:current.url?'Available now':'App Store link coming shortly',price:'UK price; regional prices vary'};
+  const text={announcement:current.url?'Available on the App Store':'App Store link coming shortly',cta:current.url?'Download on the App Store':'App Store link coming shortly',heading:current.url?'Your studio is ready.':'Your studio is nearly ready.',status:current.url?'Available now':'App Store link coming shortly',price:'UK price; regional prices vary'};
   document.querySelectorAll('[data-launch-text]').forEach(node=>{node.textContent=text[node.dataset.launchText];});
   document.querySelectorAll('[data-launch-link]').forEach(node=>{
    node.removeAttribute('download');
@@ -18,7 +18,7 @@
    else{node.removeAttribute('href');node.setAttribute('aria-disabled','true');node.setAttribute('tabindex','-1');}
   });
   document.querySelectorAll('#launch-reminder, [data-launch-calendar]').forEach(node=>{node.hidden=true;});
-  const description='Freehand 3D miniature painting for iPhone and iPad. Explore Citadel, The Army Painter and Vallejo paint references, and mix your own colours. '+(current.url?'Available on the App Store.':'App Store link coming shortly.')+' '+(config.androidReleased?'Also on Google Play.':'Google Play planned '+config.androidTiming.toLowerCase()+'.');
+  const description='Freehand 3D miniature painting for Android phones and tablets, iPhone and iPad. Explore Citadel, The Army Painter and Vallejo paint references, and mix your own colours. '+(current.url?'Available on the App Store.':'App Store link coming shortly.')+' '+(config.androidReleased?'Available now on Google Play.':'Google Play planned '+config.androidTiming.toLowerCase()+'.');
   document.querySelectorAll('meta[name="description"], meta[property="og:description"]').forEach(node=>node.setAttribute('content',description));
   return current;
  }

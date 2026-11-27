@@ -17,14 +17,14 @@ export function buildInformation(root, siteUrl) {
       EYEBROW:'FIELD NOTES / HELP & SUPPORT', HEADING:'Back to<br><em>painting.</em>',
       INTRO:'Your first miniature, your next brushstroke, or a little help when something goes wrong. Start here.',
       SUBJECT:'Miniature Studio support', CONTACT_LABEL:'Email support',
-      SIDE_NOTE:'For iPhone, iPad and the upcoming Android edition. Start with the instructions for your device.',
+      SIDE_NOTE:'For iPhone, iPad and the Android edition. Start with the instructions for your device.',
       CONTACT_HEADING:'Still stuck?', CONTACT_COPY:'Tell us your device, app version and what happened. An error message or screenshot helps. Only send models you have permission to share.'},
     {slug:'policy', old:'privacy.html', TITLE:'Privacy policy',
       DESCRIPTION:'How Miniature Studio handles local projects, optional project syncing, sharing and support correspondence.',
       EYEBROW:'FIELD NOTES / PRIVACY', HEADING:'Your models.<br><em>Your business.</em>',
       INTRO:'What stays on your device, how optional project syncing works, and what happens when you share or contact us.',
       SUBJECT:'Miniature Studio privacy', CONTACT_LABEL:'Ask a privacy question',
-      SIDE_NOTE:'Miniature Studio is developed by EllisGaming. This policy covers the Apple app, the upcoming Android edition and this website.',
+      SIDE_NOTE:'Miniature Studio is developed by EllisGaming. This policy covers the Apple app, the Android edition and this website.',
       CONTACT_HEADING:'Questions about privacy?', CONTACT_COPY:'Contact EllisGaming about this policy or to ask about your support correspondence, including requests for deletion.'}
   ];
   const template = fs.readFileSync(path.join(root,'information-template.html'),'utf8');

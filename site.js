@@ -16,7 +16,7 @@ if(launchReminder&&config.launchReminder?.enabled!==false&&!window.StudioLaunch.
  }
 }
 const webUrl=value=>{try{const u=new URL(value);return u.protocol==='https:'?u.href:null;}catch{return null;}};
-const deviceNames={iphone:'iPhone',ipad:'iPad',duo:'Duo'};
+const deviceNames={iphone:'iPhone',ipad:'iPad',duo:'Duo',android:'Android'};
 function deviceFrame(item){
  const device=deviceNames[item.device]?item.device:'ipad';
  const frame=document.createElement('div');frame.className='device-frame device-'+device;
@@ -29,11 +29,11 @@ function deviceFrame(item){
   video.addEventListener('error',()=>{if(!screen.querySelector('.video-error')){const message=document.createElement('p');message.className='video-error';message.textContent='This video could not load. ';const link=document.createElement('a');link.href=item.src;link.textContent='Try opening the recording';message.append(link);screen.append(message);}});
   screen.append(video);
  }
- else if(item.src||item.poster){const img=document.createElement('img');img.src=item.src||item.poster;img.alt=(item.alt||'App screenshot')+' — '+deviceNames[device];img.loading=item.eager?'eager':'lazy';img.decoding='async';if(item.eager)img.fetchPriority='high';const sizes={iphone:[1206,2622],ipad:[1640,2360],duo:[2007,2853]};[img.width,img.height]=sizes[device];screen.append(img);}
- else{const slot=document.createElement('div');slot.className='image-placeholder'+(item.type==='video'?' recording-placeholder':'');const title=document.createElement('strong');title.textContent=item.label||item.title;const note=document.createElement('span');note.textContent=(item.device==='iphone'?'iPhone':'iPad')+(item.type==='video'?' screen recording goes here':' screenshot goes here');slot.append(title,note);screen.append(slot);}
+ else if(item.src||item.poster){const img=document.createElement('img');img.src=item.src||item.poster;img.alt=(item.alt||'App screenshot')+' — '+deviceNames[device];img.loading=item.eager?'eager':'lazy';img.decoding='async';if(item.eager)img.fetchPriority='high';const sizes={iphone:[1206,2622],ipad:[1640,2360],duo:[2007,2853],android:[1080,2400]};[img.width,img.height]=sizes[device];screen.append(img);}
+ else{const slot=document.createElement('div');slot.className='image-placeholder'+(item.type==='video'?' recording-placeholder':'');const title=document.createElement('strong');title.textContent=item.label||item.title;const note=document.createElement('span');note.textContent=deviceNames[device]+(item.type==='video'?' screen recording goes here':' screenshot goes here');slot.append(title,note);screen.append(slot);}
  frame.append(screen);return frame;
 }
-for(const[id,item]of[['hero-tablet',config.tablet],['hero-phone',config.phone]])if(item)document.getElementById(id)?.append(deviceFrame({...item,eager:true}));
+for(const[id,item]of[['hero-tablet',config.tablet],['hero-phone',config.phone]])if(item){const host=document.getElementById(id);host?.append(deviceFrame({...item,eager:true}));if(id==='hero-phone'&&host){const caption=document.createElement('p');caption.className='device-caption';caption.textContent=deviceNames[item.device]+' workspace';host.append(caption);}}
 const gallery=document.getElementById('gallery-grid'),dialog=document.getElementById('lightbox');
 if(gallery&&dialog){
  for(const item of config.gallery||[]){
